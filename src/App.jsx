@@ -9,8 +9,10 @@ import { CalendarIcon } from "lucide-react";
 import Spinner from "../src/components/ui/Spinner";
 import PokemonCard from "../src/components/PokemonCard";
 import backgroundMusic from "../src/assets/bakcsound-music.mp3";
-import backgroundVideo from "../src/assets/background-videoo.mp4";
+import backgroundVideo from "../src/assets/background-video.mp4"; // Desktop background video
+import mobileBackgroundVideo from "../src/assets/background-video-mobile.mp4"; // Mobile background video
 
+import backgroundImage from "../src/assets/pokemonbg.jpg";
 import twitterX from "../src/assets/twitterx.png"; 
 
 export default function App() {
@@ -50,6 +52,7 @@ export default function App() {
       setIsLoading(false);
     }
   }
+  
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = 0.5;
@@ -92,25 +95,42 @@ export default function App() {
     setShowCard(false);
   };
 
-  return (
-    
-    <div className="relative min-h-screen bg-background flex flex-col items-center justify-center p-4 overflow-x-hidden">
-  <audio ref={audioRef} src={backgroundMusic} loop />
+  // Determine if the device is mobile
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-  <video
-    autoPlay
-    loop
-    muted
-    playsInline
-    className="absolute top-0 left-0 w-full h-full object-cover z-0"
-    style={{ filter: 'brightness(0.5) contrast(1.2)' }}
-  >
-    <source src={backgroundVideo} type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
+  return (
+    <div className="relative min-h-screen bg-background flex flex-col items-center justify-center p-4 overflow-x-hidden">
+      <audio ref={audioRef} src={backgroundMusic} loop />
+
+      {isMobile ? (
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute top-0 left-0 w-full h-full object-cover z-0"
+          style={{ filter: 'brightness(0.5) contrast(1.2)' }}
+        >
+          <source src={mobileBackgroundVideo} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      ) : (
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute top-0 left-0 w-full h-full object-cover z-0"
+          style={{ filter: 'brightness(0.5) contrast(1.2)' }}
+        >
+          <source src={backgroundVideo} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      )}
+
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-white text-center font-mono ">Your Isékai Khodam</CardTitle>
+          <CardTitle className="text-2xl font-bold text-white text-center font-mono">Your Isékai Khodam</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -204,10 +224,9 @@ export default function App() {
 
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center space-x-2">
         <span className="text-sm text-white font-mono">made with ❤️</span>
-        <a href="https://x.com/ineeddsleep" target="_blank" >
+        <a href="https://x.com/ineeddsleep" target="_blank" rel="noopener noreferrer">
           <img src={twitterX} alt="Twitter" className="w-6 h-6" />
         </a>
-        
       </div>
     </div>
   );
