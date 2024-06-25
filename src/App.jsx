@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button } from "../src/components/ui/button";
 import { Input } from "../src/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "../src/components/ui/card";
@@ -8,10 +8,11 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import Spinner from "../src/components/ui/Spinner";
 import PokemonCard from "../src/components/PokemonCard";
+import backgroundMusic from "../src/assets/bakcsound-music.mp3";
+import backgroundVideo from "../src/assets/background-video.mp4";
 
-// Import the background image
 import backgroundImage from "../src/assets/pokemonbg.jpg";
-import twitterX from "../src/assets/twitterx.png"; // Make sure this path is correct
+import twitterX from "../src/assets/twitterx.png"; 
 
 export default function App() {
   const [name, setName] = useState("");
@@ -20,6 +21,8 @@ export default function App() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showCard, setShowCard] = useState(false);
+  const audioRef = useRef(null);
+  const [isMuted, setIsMuted] = useState(false);
 
   const disableFutureDates = (date) => {
     return date > new Date();
@@ -48,6 +51,32 @@ export default function App() {
       setIsLoading(false);
     }
   }
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.5;
+      audioRef.current.loop = true;
+      
+      const attemptPlay = () => {
+        audioRef.current.play().catch(error => {
+          console.log("Autoplay prevented:", error);
+        });
+      };
+  
+      attemptPlay(); // Try to play immediately
+  
+      // Attempt to play on various user interactions
+      const userInteractions = ['click', 'touchstart', 'keydown'];
+      userInteractions.forEach(event => 
+        document.addEventListener(event, attemptPlay, { once: true })
+      );
+  
+      return () => {
+        userInteractions.forEach(event => 
+          document.removeEventListener(event, attemptPlay)
+        );
+      };
+    }
+  }, []);
 
   function resetForm() {
     setName("");
@@ -65,20 +94,21 @@ export default function App() {
   };
 
   return (
+    
     <div className="relative min-h-screen bg-background flex flex-col items-center justify-center p-4 overflow-x-hidden">
-      <div 
-        className="fixed inset-0"
-        style={{ 
-          backgroundImage: `url(${backgroundImage})`, 
-          backgroundSize: 'cover', 
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-          filter: 'brightness(0.5) contrast(1.2)',
-          zIndex: -1,
-          minHeight: '100vh',
-          minWidth: '100vw'
-        }}
-      />
+  <audio ref={audioRef} src={backgroundMusic} loop />
+
+  <video
+    autoPlay
+    loop
+    muted
+    playsInline
+    className="absolute top-0 left-0 w-full h-full object-cover z-0"
+    style={{ filter: 'brightness(0.5) contrast(1.2)' }}
+  >
+    <source src={backgroundVideo} type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-white text-center font-mono ">Your Isékai Khodam</CardTitle>
@@ -178,6 +208,7 @@ export default function App() {
         <a href="https://x.com/ineeddsleep" target="_blank" >
           <img src={twitterX} alt="Twitter" className="w-6 h-6" />
         </a>
+        
       </div>
     </div>
   );
