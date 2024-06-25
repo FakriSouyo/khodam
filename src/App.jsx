@@ -147,7 +147,7 @@ export default function App() {
 
           {pokemon && (
             <div className="mt-8 text-center">
-              <h2 className="text-xl font-semibold mb-2">khodam kawai {name} adalah:</h2>
+              <h2 className="text-xl font-extralight mb-2 font-mono lowercase">khodam {name} adalah:</h2>
               <h3 className="text-2xl font-bold text-primary mb-4 capitalize">{pokemon.name}</h3>
               <img 
                 src={pokemon.sprites.front_default} 
