@@ -13,7 +13,6 @@ import PokemonCard from "../src/components/PokemonCard";
 import backgroundImage from "../src/assets/pokemonbg.jpg";
 import twitterX from "../src/assets/twitterx.png"; // Make sure this path is correct
 
-
 export default function App() {
   const [name, setName] = useState("");
   const [date, setDate] = useState();
@@ -66,20 +65,23 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-background flex flex-col items-center justify-center p-4">
+    <div className="relative min-h-screen bg-background flex flex-col items-center justify-center p-4 overflow-x-hidden">
       <div 
-        className="absolute inset-0"
+        className="fixed inset-0"
         style={{ 
           backgroundImage: `url(${backgroundImage})`, 
           backgroundSize: 'cover', 
           backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
           filter: 'brightness(0.5) contrast(1.2)',
-          zIndex: -1
+          zIndex: -1,
+          minHeight: '100vh',
+          minWidth: '100vw'
         }}
       />
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-white text-center">Your Isékai Khodam</CardTitle>
+          <CardTitle className="text-2xl font-bold text-white text-center font-mono ">Your Isékai Khodam</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -138,7 +140,7 @@ export default function App() {
             </Popover>
             <Button 
               onClick={isGenerating ? resetForm : generateKhodam} 
-              className="w-full"
+              className="w-full font-mono"
               disabled={isLoading}
             >
               {isLoading ? <Spinner /> : isGenerating ? "Ulangi Lagi" : "Check"}
