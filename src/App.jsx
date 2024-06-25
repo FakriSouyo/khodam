@@ -94,7 +94,7 @@ export default function App() {
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
-                  className={`w-full justify-start text-left bg-black font-normal ${!date && "text-muted-foreground"}`}
+                  className={`w-full justify-start text-left bg-black font-normal font-mono ${!date && "text-muted-foreground"}`}
                   disabled={isGenerating || isLoading}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
@@ -148,14 +148,14 @@ export default function App() {
           {pokemon && (
             <div className="mt-8 text-center">
               <h2 className="text-xl font-extralight mb-2 font-mono lowercase">khodam {name} adalah:</h2>
-              <h3 className="text-2xl font-bold text-primary mb-4 capitalize">{pokemon.name}</h3>
+              <h3 className="font-name text-2xl font-bold text-primary mb-4 capitalize">{pokemon.name}</h3>
               <img 
                 src={pokemon.sprites.front_default} 
                 alt={pokemon.name} 
                 className="mx-auto" 
                 style={{ width: '200px', height: '200px', objectFit: 'contain' }}
               />
-              <Button onClick={handleShare} className="mt-4">
+              <Button onClick={handleShare} className="mt-4 font-mono">
                 Share
               </Button>
             </div>
