@@ -9,9 +9,8 @@ import { CalendarIcon } from "lucide-react";
 import Spinner from "../src/components/ui/Spinner";
 import PokemonCard from "../src/components/PokemonCard";
 import backgroundMusic from "../src/assets/bakcsound-music.mp3";
-import backgroundVideo from "../src/assets/background-video.mp4";
+import backgroundVideo from "../src/assets/background-videoo.mp4";
 
-import backgroundImage from "../src/assets/pokemonbg.jpg";
 import twitterX from "../src/assets/twitterx.png"; 
 
 export default function App() {
